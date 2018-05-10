@@ -14,7 +14,6 @@ using Newtonsoft.Json;
 
 namespace MunicipalitiesTaxes.Controllers
 {
-    [RoutePrefix("api/taxesAdd")]
     public class DataFromFileController : ApiController
     {
         private readonly ITaxesService _taxesService;
@@ -24,11 +23,13 @@ namespace MunicipalitiesTaxes.Controllers
             _taxesService = taxesService;
         }
 
-        [Route("range")]
         [HttpPost]
-        public async Task<IHttpActionResult> AddMunicipalitiesData()
+        public async Task<IHttpActionResult> Add()
         {
-            using (var r = new StreamReader("file.json"))
+            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                "MunicipalitiesDataJson", "MunicipalietiesTaxes.json");
+
+            using (var r = new StreamReader(path ?? throw new InvalidOperationException()))
             {
                 var json = r.ReadToEnd();
                 var items = JsonConvert.DeserializeObject<List<TaxDto>>(json);
