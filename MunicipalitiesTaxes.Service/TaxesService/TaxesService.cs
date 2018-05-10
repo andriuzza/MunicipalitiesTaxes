@@ -48,8 +48,12 @@ namespace MunicipalitiesTaxes.Service.TaxesService
 
         public async Task<TaxDto> AddTax(TaxDto taxDto)
         {
+            if (taxDto.TaxDecimal == 0 ||
+                Enum.IsDefined(typeof(TaxType), (int) taxDto.TaxType) == false)
+            {
+                throw new Exception("Wrong properties, try again");
+            }
            return await _textRepository.AddTaxAsync(taxDto);
-
         }
 
         public async Task<IEnumerable<TaxDto>> GetAllTaxesAsync()
@@ -60,12 +64,23 @@ namespace MunicipalitiesTaxes.Service.TaxesService
 
         public async Task<TaxDto> UpdateTax(TaxDto taxDto)
         {
+            if (taxDto.TaxDecimal == 0 ||
+                Enum.IsDefined(typeof(TaxType), (int)taxDto.TaxType) == false
+            )
+            {
+                throw new Exception("Wrong properties, try again");
+            }
+
             return await _textRepository.UpadateTaxAsync(taxDto);
         }
 
         public async Task<bool> AddRangeTaxes(List<TaxDto> items)
         {
-           return await _textRepository.AddRangeTaxes(items);
+            if (items == null)
+            {
+                throw new Exception("Empty list");
+            }
+            return await _textRepository.AddRangeTaxes(items);
         }
 
         private TaxDto GetTaxInformation(TaxDto tax, SearchTaskDto search)

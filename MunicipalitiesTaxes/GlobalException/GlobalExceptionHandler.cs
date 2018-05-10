@@ -24,7 +24,6 @@ namespace MunicipalitiesTaxes.GlobalException
             IsDebug = isDebug;
         }
 
-        // Override because HTTPPOST and HTTPPUT exceptions are handled by CorsMessageHandler 
         public override bool ShouldHandle(ExceptionHandlerContext context)
         {
             return true;
@@ -44,13 +43,10 @@ namespace MunicipalitiesTaxes.GlobalException
                 new
                 {
                     Message = _errorMessage,
-                    StackTrace = IsDebug ? _stackTrace : "Release env"
+                   /* StackTrace = IsDebug ? _stackTrace : "Release env" */
+                   /*at this time no stack trace is being show */
                 });
-
-            if (context.Exception is ValidationException)
-            {
-                _response.StatusCode = HttpStatusCode.BadRequest;
-            }
+            _response.StatusCode = HttpStatusCode.BadRequest;
 
             context.Result = new ResponseMessageResult(_response);
         }
