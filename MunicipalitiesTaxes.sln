@@ -5,6 +5,14 @@ VisualStudioVersion = 15.0.27004.2009
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MunicipalitiesTaxes", "MunicipalitiesTaxes\MunicipalitiesTaxes.csproj", "{2DEA2819-AE4D-42B2-972A-E19C2AFFE17B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MunicipalitiesTaxes.Service", "MunicipalitiesTaxes.Service\MunicipalitiesTaxes.Service.csproj", "{DDD9BC0C-B74B-4F34-92C0-E8997682CC22}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MunicipalitiesTaxes.Repositories", "MunicipalitiesTaxes.Repositories\MunicipalitiesTaxes.Repositories.csproj", "{02F110D5-2013-4DC1-B13A-7C1BEBF2A2FD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MunicipalitiesTaxes.Contract", "MunicipalitiesTaxes.Contract\MunicipalitiesTaxes.Contract.csproj", "{944EFE0C-9711-4198-BB73-8DFE7344E3CB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MunicipalitiesTaxes.SelfHost", "MunicipalitiesTaxes.SelfHost\MunicipalitiesTaxes.SelfHost.csproj", "{596BADE1-21B3-44FD-A241-FC40294183AF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +23,22 @@ Global
 		{2DEA2819-AE4D-42B2-972A-E19C2AFFE17B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2DEA2819-AE4D-42B2-972A-E19C2AFFE17B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2DEA2819-AE4D-42B2-972A-E19C2AFFE17B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDD9BC0C-B74B-4F34-92C0-E8997682CC22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDD9BC0C-B74B-4F34-92C0-E8997682CC22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDD9BC0C-B74B-4F34-92C0-E8997682CC22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDD9BC0C-B74B-4F34-92C0-E8997682CC22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02F110D5-2013-4DC1-B13A-7C1BEBF2A2FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02F110D5-2013-4DC1-B13A-7C1BEBF2A2FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02F110D5-2013-4DC1-B13A-7C1BEBF2A2FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02F110D5-2013-4DC1-B13A-7C1BEBF2A2FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{944EFE0C-9711-4198-BB73-8DFE7344E3CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{944EFE0C-9711-4198-BB73-8DFE7344E3CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{944EFE0C-9711-4198-BB73-8DFE7344E3CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{944EFE0C-9711-4198-BB73-8DFE7344E3CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{596BADE1-21B3-44FD-A241-FC40294183AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{596BADE1-21B3-44FD-A241-FC40294183AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{596BADE1-21B3-44FD-A241-FC40294183AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{596BADE1-21B3-44FD-A241-FC40294183AF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
