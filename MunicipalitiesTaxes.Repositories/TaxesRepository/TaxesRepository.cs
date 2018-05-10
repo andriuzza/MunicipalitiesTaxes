@@ -52,6 +52,7 @@ namespace MunicipalitiesTaxes.Repositories.TaxesRepository
         {
             var result = _dbContext.Taxes.Add(new Tax()
             {
+                Id = Guid.NewGuid(),
                 MunicipalityId = taxDto.MunicipalityId,
                 TaxDecimal = taxDto.TaxDecimal,
                 TaxType = taxDto.TaxType,
@@ -85,17 +86,19 @@ namespace MunicipalitiesTaxes.Repositories.TaxesRepository
 
         public async Task<bool> AddRangeTaxes(List<TaxDto> items)
         {
-            var taxes = _dbContext.Taxes.Select(x=> new Tax()
+            var taxes = items.Select(x => new Tax()
             {
+                Id = Guid.NewGuid(),
                 MunicipalityId = x.MunicipalityId,
                 TaxDecimal = x.TaxDecimal,
                 TaxType = x.TaxType,
                 Date = x.Date
-                
-            });
+
+            }).AsEnumerable();
 
              _dbContext.Taxes.AddRange(taxes);
-            return await _dbContext.SaveChangesAsync() == 1;
+            var isDone = await _dbContext.SaveChangesAsync();
+            return isDone != 0;
         }
     }
 }
