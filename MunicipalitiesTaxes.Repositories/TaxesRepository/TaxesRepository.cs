@@ -34,18 +34,24 @@ namespace MunicipalitiesTaxes.Repositories.TaxesRepository
             return (IEnumerable <TaxDto>) result;
         }
 
-        public async Task<IEnumerable<TaxDto>> GetTax()
-        {
-            return null;
-        }
 
         public async Task<IEnumerable<TaxDto>> GetTaxByCityAsync(string cityName)
         {
-            var result = await _dbContext.Municipalities
-                .Where(x => x.Name.Equals(cityName))
-                .ToListAsync() as IEnumerable<TaxDto>;
+            var taxesByCity = from municipality in _dbContext.Municipalities
+                join tax in _dbContext.Taxes on municipality.Id equals tax.MunicipalityId
+                where municipality.Name.Equals(cityName)
+                select new TaxDto()
+                {
+                    Date = tax.Date,
+                    TaxDecimal = tax.TaxDecimal,
+                    MunicipalityId = tax.MunicipalityId,
+                    TaxType = tax.TaxType,
+                    Id = tax.Id
+                };
 
-            return result;
+            var texesList = taxesByCity.AsEnumerable();
+
+            return texesList;
         }
 
         public async Task<TaxDto> AddTaxAsync(TaxDto taxDto)

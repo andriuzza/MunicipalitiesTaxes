@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 using MunicipalitiesTaxes.Contract.Dto;
 
 namespace MunicipalitiesTaxes.Repositories.Models
@@ -11,6 +12,7 @@ namespace MunicipalitiesTaxes.Repositories.Models
 
         public decimal  TaxDecimal { get; set; }
 
+        [Column(TypeName = "date")]
         public DateTime Date { get; set; }
 
         public Guid MunicipalityId { get; set; }

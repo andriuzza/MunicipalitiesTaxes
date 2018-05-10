@@ -3,21 +3,14 @@
     "Id": "f7e76009-b720-4df0-ad67-1cde43b0d01f",
     "TaxType": 1,
     "TaxDecimal": 1.51,
-    "Date": "2018-09-10T19:46:51.143",
+    "Date": "2018-09-10",
     "MunicipalityId": "b23caf93-9120-4e09-b186-e79ef351e3c0"
-  },
-  {
-    "Id": "1d534fc3-b3ca-46f2-8130-5501800c5d84",
-    "TaxType": 2,
-    "TaxDecimal": 3.34,
-    "Date": "2018-02-01T00:00:00",
-    "MunicipalityId": "0a462cab-bb16-4793-a2f6-e74b68f32ac7"
   },
   {
     "Id": "190002e7-b26f-4c44-98b6-fcee37dd3ce4",
     "TaxType": 3,
     "TaxDecimal": 4.33,
-    "Date": "2018-01-01T00:00:00",
+    "Date": "2018-01-01",
     "MunicipalityId": "b23caf93-9120-4e09-b186-e79ef351e3c0"
   }
 ]
