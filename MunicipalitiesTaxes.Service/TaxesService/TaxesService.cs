@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using MunicipalitiesTaxes.Contract.Dto;
@@ -17,6 +18,7 @@ namespace MunicipalitiesTaxes.Service.TaxesService
         {
             _textRepository = textRepository;
         }
+        
         public async Task<TaxDto> GetTax(SearchTaskDto search)
         {
             if (string.IsNullOrEmpty(search.MunicipalityName))
@@ -32,15 +34,55 @@ namespace MunicipalitiesTaxes.Service.TaxesService
                 return null;
             }
 
-            var orderedEnumerable = taxes.OrderByDescending(x => x.TaxType);
+            var sortedTaxes = taxes.OrderByDescending(x => x.TaxType).ToArray();
 
-            foreach (var tax in orderedEnumerable)
+            for (var i = 0; i < sortedTaxes.Length; i++)
             {
-                var result = GetTaxInformation(tax, search);
-                if (result != null)
+                try
                 {
-                    return result;
+                    while (sortedTaxes[i].TaxType == TaxType.Daily)
+                    {
+                        if (CheckTaxesDaily(sortedTaxes[i], search))
+                        {
+                            return sortedTaxes[i];
+                        }
+                        i++;
+                    }
+
+                    while (sortedTaxes[i].TaxType == TaxType.Weekly)
+                    {
+                        if (CheckTaxesWeekly(sortedTaxes[i], search))
+                        {
+                            return sortedTaxes[i];
+                        }
+                        ;
+                        i++;
+                    }
+
+                    while (sortedTaxes[i].TaxType == TaxType.Monthly)
+                    {
+                        if (CheckTaxesMonthly(sortedTaxes[i], search))
+                        {
+                            return sortedTaxes[i];
+                        }
+                        i++;
+                    }
+
+                    while (sortedTaxes[i].TaxType == TaxType.Yearly)
+                    {
+                        if (CheckTaxesYearly(sortedTaxes[i], search))
+                        {
+                            return sortedTaxes[i];
+                        }
+                        ;
+                        i++;
+                    }
                 }
+                catch (IndexOutOfRangeException)
+                {
+                    return null;
+                }
+
             }
 
             return null;
@@ -48,8 +90,12 @@ namespace MunicipalitiesTaxes.Service.TaxesService
 
         public async Task<TaxDto> AddTax(TaxDto taxDto)
         {
+            if (taxDto.TaxDecimal == 0 ||
+                Enum.IsDefined(typeof(TaxType), (int) taxDto.TaxType) == false)
+            {
+                throw new Exception("Wrong properties, try again");
+            }
            return await _textRepository.AddTaxAsync(taxDto);
-
         }
 
         public async Task<IEnumerable<TaxDto>> GetAllTaxesAsync()
@@ -57,44 +103,51 @@ namespace MunicipalitiesTaxes.Service.TaxesService
            return await _textRepository.GetAllTaxesAsync();
         }
 
-
         public async Task<TaxDto> UpdateTax(TaxDto taxDto)
         {
+            if (taxDto.TaxDecimal == 0 ||
+                Enum.IsDefined(typeof(TaxType), (int)taxDto.TaxType) == false
+            )
+            {
+                throw new Exception("Wrong properties, try again");
+            }
+
             return await _textRepository.UpadateTaxAsync(taxDto);
         }
 
         public async Task<bool> AddRangeTaxes(List<TaxDto> items)
         {
-           return await _textRepository.AddRangeTaxes(items);
+            if (items == null)
+            {
+                throw new Exception("Empty sortedTaxes");
+            }
+            return await _textRepository.AddRangeTaxes(items);
         }
 
-        private TaxDto GetTaxInformation(TaxDto tax, SearchTaskDto search)
+        private bool CheckTaxesDaily(TaxDto tax, SearchTaskDto search)
         {
-            if (tax.Date == search.Date &&
-                tax.TaxType == TaxType.Daily)
-            {
-                return tax;
-            }
+            return (tax.Date == search.Date &&
+                    tax.TaxType == TaxType.Daily);
 
-            if (tax.Date <= search.Date && tax.Date.AddDays(7) >= search.Date
-                && tax.TaxType == TaxType.Weekly)
-            {
-                return tax;
-            }
+        }
 
-            if (tax.Date <= search.Date && tax.Date.AddMonths(1) >= search.Date
-                && tax.TaxType == TaxType.Monthly)
-            {
-                return tax;
-            }
+        private bool CheckTaxesWeekly(TaxDto tax, SearchTaskDto search)
+        {
+            return tax.Date <= search.Date && tax.Date.AddDays(7) >= search.Date
+                   && tax.TaxType == TaxType.Weekly;
+        }
 
-            if (tax.Date <= search.Date && tax.Date.AddYears(1) >= search.Date
-                && tax.TaxType == TaxType.Yearly)
-            {
-                return tax;
-            }
+        private bool CheckTaxesMonthly(TaxDto tax, SearchTaskDto search)
+        {
+            return tax.Date <= search.Date && tax.Date.AddMonths(1) >= search.Date
+                   && tax.TaxType == TaxType.Monthly;
 
-            return null;
+        }
+
+        private bool CheckTaxesYearly (TaxDto tax, SearchTaskDto search)
+        {
+            return tax.Date <= search.Date && tax.Date.AddYears(1) >= search.Date
+                   && tax.TaxType == TaxType.Yearly;
         }
     }
 }

@@ -50,7 +50,7 @@ namespace MunicipalitiesTaxes.Repositories.Migrations
             context.Taxes.Add(new Tax()
             {
                 Id = Guid.NewGuid(),
-                Date = DateTime.Now,
+                Date = new DateTime(2018, 01, 01),
                 TaxDecimal = (decimal) 0.515,
                 TaxType = TaxType.Yearly,
                 MunicipalityId = municipality1.Id

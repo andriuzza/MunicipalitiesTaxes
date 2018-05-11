@@ -50,6 +50,14 @@
     <Compile Include="ContextConfigurations\MunicipalitiesConfiguration.cs" />
     <Compile Include="ContextConfigurations\TaxesConfiguration.cs" />
     <Compile Include="DbContext\MunicipalitiesContext.cs" />
+    <Compile Include="Migrations\201805102324413_date-changes.cs" />
+    <Compile Include="Migrations\201805102324413_date-changes.Designer.cs">
+      <DependentUpon>201805102324413_date-changes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805102327547_date-changes-2.cs" />
+    <Compile Include="Migrations\201805102327547_date-changes-2.Designer.cs">
+      <DependentUpon>201805102327547_date-changes-2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\Municipality.cs" />
     <Compile Include="Models\Tax.cs" />
     <Compile Include="Migrations\201805101331322_Init.cs" />
@@ -76,6 +84,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201805101342340_added-one-to-many-relationship.resx">
       <DependentUpon>201805101342340_added-one-to-many-relationship.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805102324413_date-changes.resx">
+      <DependentUpon>201805102324413_date-changes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805102327547_date-changes-2.resx">
+      <DependentUpon>201805102327547_date-changes-2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
