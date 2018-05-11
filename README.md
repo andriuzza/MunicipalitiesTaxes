@@ -15,3 +15,5 @@ certain municipality at the given day.
 - Update record functionality is exposed via API - if I understood correctly, I had created method in web api controller who allows to change taxes record fields with HttpPut by sending request to API.
 - Dependancy injection wasn't neccessary but for my project structure I had to use them (Unity Container)
 - In migrations configuration class I use some mocked data who automatically being added to a database when we run migrations
+
+*** for the main task - to return tax size. I'm not only returning the size of it, but  all tax model information, like Id, taxType ir etc.
