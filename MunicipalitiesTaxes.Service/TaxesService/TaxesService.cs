@@ -27,65 +27,9 @@ namespace MunicipalitiesTaxes.Service.TaxesService
             }
 
             var taxes = await _textRepository
-                .GetTaxByCityAsync(search.MunicipalityName);
+                .GetTaxByCityAsync(search.MunicipalityName, search.Date);
 
-            if (taxes == null)
-            {
-                return null;
-            }
-
-            var sortedTaxes = taxes.OrderByDescending(x => x.TaxType).ToArray();
-
-            for (var i = 0; i < sortedTaxes.Length; i++)
-            {
-                try
-                {
-                    while (sortedTaxes[i].TaxType == TaxType.Daily)
-                    {
-                        if (CheckTaxesDaily(sortedTaxes[i], search))
-                        {
-                            return sortedTaxes[i];
-                        }
-                        i++;
-                    }
-
-                    while (sortedTaxes[i].TaxType == TaxType.Weekly)
-                    {
-                        if (CheckTaxesWeekly(sortedTaxes[i], search))
-                        {
-                            return sortedTaxes[i];
-                        }
-                        ;
-                        i++;
-                    }
-
-                    while (sortedTaxes[i].TaxType == TaxType.Monthly)
-                    {
-                        if (CheckTaxesMonthly(sortedTaxes[i], search))
-                        {
-                            return sortedTaxes[i];
-                        }
-                        i++;
-                    }
-
-                    while (sortedTaxes[i].TaxType == TaxType.Yearly)
-                    {
-                        if (CheckTaxesYearly(sortedTaxes[i], search))
-                        {
-                            return sortedTaxes[i];
-                        }
-                        ;
-                        i++;
-                    }
-                }
-                catch (IndexOutOfRangeException)
-                {
-                    return null;
-                }
-
-            }
-
-            return null;
+            return taxes.OrderByDescending(x => x.TaxType).First(); /*Fixed code there and in the repository */
         }
 
         public async Task<TaxDto> AddTax(TaxDto taxDto)
@@ -124,30 +68,5 @@ namespace MunicipalitiesTaxes.Service.TaxesService
             return await _textRepository.AddRangeTaxes(items);
         }
 
-        private bool CheckTaxesDaily(TaxDto tax, SearchTaskDto search)
-        {
-            return (tax.Date == search.Date &&
-                    tax.TaxType == TaxType.Daily);
-
-        }
-
-        private bool CheckTaxesWeekly(TaxDto tax, SearchTaskDto search)
-        {
-            return tax.Date <= search.Date && tax.Date.AddDays(7) >= search.Date
-                   && tax.TaxType == TaxType.Weekly;
-        }
-
-        private bool CheckTaxesMonthly(TaxDto tax, SearchTaskDto search)
-        {
-            return tax.Date <= search.Date && tax.Date.AddMonths(1) >= search.Date
-                   && tax.TaxType == TaxType.Monthly;
-
-        }
-
-        private bool CheckTaxesYearly (TaxDto tax, SearchTaskDto search)
-        {
-            return tax.Date <= search.Date && tax.Date.AddYears(1) >= search.Date
-                   && tax.TaxType == TaxType.Yearly;
-        }
     }
 }
