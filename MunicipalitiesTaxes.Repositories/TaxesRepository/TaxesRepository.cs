@@ -34,12 +34,33 @@ namespace MunicipalitiesTaxes.Repositories.TaxesRepository
             return (IEnumerable <TaxDto>) result;
         }
 
-
-        public async Task<IEnumerable<TaxDto>> GetTaxByCityAsync(string cityName)
+        private DateTime GetTheLastMonday(DateTime dt)
         {
+            int diff = (7 + (dt.DayOfWeek - (DayOfWeek.Monday)) % 7);
+            return dt.AddDays(-1 * diff).Date.AddDays(-7);
+        }
+        public async Task<IEnumerable<TaxDto>> GetTaxByCityAsync(string cityName, DateTime taxDate)
+        {
+            var weekStart = GetTheLastMonday(taxDate);
+
             var taxesByCity = from municipality in _dbContext.Municipalities
                 join tax in _dbContext.Taxes on municipality.Id equals tax.MunicipalityId
-                where municipality.Name.Equals(cityName)
+                let year = tax.Date.Year
+                let month = tax.Date.Month
+                let day = tax.Date.Day
+                
+                   where (municipality.Name.Equals(cityName))
+                 && ( 
+                    (tax.Date == taxDate.Date && tax.TaxType == TaxType.Daily) ||
+
+                    (year == taxDate.Year && month == taxDate.Month
+                        && day == 1 && tax.TaxType == TaxType.Monthly) ||
+
+                        (weekStart == tax.Date && tax.TaxType == TaxType.Monthly) || 
+                        
+                        (taxDate.Year == year && tax.TaxType == TaxType.Yearly)
+                )
+                
                 select new TaxDto()
                 {
                     Date = tax.Date,
@@ -105,6 +126,14 @@ namespace MunicipalitiesTaxes.Repositories.TaxesRepository
              _dbContext.Taxes.AddRange(taxes);
             var isDone = await _dbContext.SaveChangesAsync();
             return isDone != 0;
+        }
+    }
+    public static class DateTimeExtensions
+    {
+        public static DateTime StartOfWeek(this DateTime dt, DayOfWeek startOfWeek)
+        {
+            int diff = (7 + (dt.DayOfWeek - startOfWeek)) % 7;
+            return dt.AddDays(-1 * diff).Date.AddDays(-7);
         }
     }
 }

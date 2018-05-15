@@ -9,7 +9,7 @@ namespace MunicipalitiesTaxes.Contract.Repositories
 {
     public interface ITaxesRepository
     {
-        Task<IEnumerable<TaxDto>> GetTaxByCityAsync(string cityName);
+        Task<IEnumerable<TaxDto>> GetTaxByCityAsync(string cityName, DateTime taxDate);
         Task<TaxDto> AddTaxAsync(TaxDto taxDto);
         Task<TaxDto>UpadateTaxAsync(TaxDto taxDto);
         Task<bool> AddRangeTaxes(List<TaxDto> items);
